@@ -10,7 +10,6 @@ import { NavLink, Outlet } from "react-router-dom";
 import { motion } from "motion/react";
 import { } from "lucide-react";
 
-import { use } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const DashboardLayout = () => {
@@ -28,21 +27,22 @@ const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(!false)
     const [selected, setSelected] = useState("Dashboard")
     const [notifs, setNotifs] = useState(3);
-    const [role, setRole] = useState("seller");
-    console.log(role);
+    const [role, setRole] = useState("Seller");
+    // console.log(role);
     
 
     useEffect(() => {
         // console.log(userRole);
         if (userRole === ('no role found' || undefined)) 
-            setRole('buyer');
+            setRole('Buyer');
         else{           
-            const role = userRole?.toLowerCase();
+            // const role = userRole?.toLowerCase();
             // console.log(role);
             
-            setRole(role);
+            setRole(userRole);
         }
     }, [userRole]);
+    // console.log(role);
 
     const buyerOptions = [
         { title: "Dashboard", Icon: LayoutDashboard, target: '/dashboard',  selected: selected, setSelected: setSelected, isOpen: isOpen },
@@ -80,11 +80,13 @@ const Sidebar = () => {
         { title: "Complains", Icon: MailWarning, target: "/dashboard/sellerComplain", selected: selected, setSelected: setSelected, isOpen: isOpen },
         { title: "Reviews", Icon: Star, target: "/dashboard/sellerReview", selected: selected, setSelected: setSelected, isOpen: isOpen }
     ];
+    // console.log(userRole);
+    
     
     let options = [];
-    if (role === 'seller') { options = sellerOptions; }
-    else if (role === 'admin') { options = adminOptions; }
-    else if (role === 'undefined' || 'buyer') { options = buyerOptions; }
+    if (userRole === 'Seller') { options = sellerOptions; }
+    else if (userRole === 'Admin') { options = adminOptions; }
+    else if (userRole === 'undefined' || 'Buyer') { options = buyerOptions; }
 
     return (
         <motion.nav

@@ -21,17 +21,17 @@
 } */
 
 /* Neon effect - Fixed to match original exactly */
+/* #ff9966 */
 .neon-effect {
     position: absolute;
     content: ' ';
     display: block;
-    width: 160px;
+    width: 300px;
     height: 160%;
-    /* #ff9966 */
     background: linear-gradient(90deg, transparent, #1833cb, #1833cb, #1833cb, #1833cb, transparent);
     animation: rotation_481 5000ms infinite linear;
     top: -30%;
-    left: calc(50% - 80px);
+    left: calc(50% - 150px);
 }
 
 @keyframes rotation_481 {

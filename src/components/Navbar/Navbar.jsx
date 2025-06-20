@@ -1,11 +1,18 @@
 import { Link, NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../Hooks/useAxiosPrivate";
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
+    const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure();
+    const test = () => {        
+        axiosSecure.post('/test', {text: 'text111'});
+    }
     // console.log(user);
-    
+
     // const links = <>
     //     <li><NavLink to='/suit'>Suit</NavLink></li>
     //     <li><NavLink to='/apartment'>Apartment</NavLink></li>
@@ -30,14 +37,14 @@ const Navbar = () => {
                                 <li><a>Can't buy borrow?</a></li>
                             </ul>
                         </li>
-                        { user && <Link to='/dashboard'>Dashboard</Link>}
+                        {user && <Link to='/dashboard'>Dashboard</Link>}
                     </ul>
                 </div>
                 <a className="btn btn-ghost text-xl">B&B</a>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><Link to='/'>Home</Link></li>
+                    <li><Link onClick={() => test()} to='/'>Home</Link></li>
                     <li>
                         <details>
                             <summary>Products</summary>
@@ -47,11 +54,11 @@ const Navbar = () => {
                             </ul>
                         </details>
                     </li>
-                    { user && <li><Link to='/dashboard'>Dashboard</Link></li>}
+                    {user && <li><Link to='/dashboard'>Dashboard</Link></li>}
                 </ul>
             </div>
             <div className="navbar-end">
-                 {
+                {
                     user ? <>
                         <div className="flex gap-x-2 dropdown dropdown-end">
                             <div>

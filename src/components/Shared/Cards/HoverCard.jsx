@@ -16,7 +16,7 @@ const HoverCard = () => {
         }`}
       >
         {/* Back Side */}
-        <div className="back absolute inset-0 bg-gray-900 rounded-lg flex justify-center items-center overflow-hidden relative">
+        <div className="back inset-0 bg-gray-900 rounded-lg flex justify-center items-center overflow-hidden relative">
           {/* Neon Lighting (moving gradient behind the text) */}
           <div className="neon-light absolute inset-0 bg-gradient-to-r from-yellow-500 to-red-500 animate-rotation"></div>
 

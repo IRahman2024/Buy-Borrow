@@ -3,6 +3,7 @@ import { createContext, useEffect, useState } from "react";
 
 import axios from "axios";
 import { auth } from "../Firebase/firebase.config";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
 
@@ -10,13 +11,16 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState([]);
     // const [role, setRole] = useState();
     const [loader, setLoader] = useState(true);
+    const [role, setRole] = useState(true);
     // console.log(user);
 
-    // const checkRole = async (email) => {
-    //     const data = await axios.get(`http://localhost:3000/getRole?email=${email}`);
-    //     // console.log(data.data);
-    //     setRole(data.data);
-    // }
+    const axiosPublic = useAxiosPublic();
+
+    const checkRole = async (email) => {
+        const data = await axiosPublic.get(`/getRoles?email=${email}`);
+        console.log(data.data);
+        setRole(data.data);
+    }
 
 
     const googleProvider = new GoogleAuthProvider();
@@ -30,7 +34,7 @@ const AuthProvider = ({ children }) => {
             // })
             .catch((error) => {
                 console.error("Error signing in:", error.message);
-                if(error.message === 'Firebase: Error (auth/invalid-credential).'){
+                if (error.message === 'Firebase: Error (auth/invalid-credential).') {
                     alert('Invalid Credentials');
                     setLoader(false);
                 }
@@ -42,7 +46,7 @@ const AuthProvider = ({ children }) => {
         console.log(email, pass);
 
         return createUserWithEmailAndPassword(auth, email, pass)
-            .then((res)=>{
+            .then((res) => {
                 // checkRole(email);
                 return res;
             })
@@ -65,10 +69,10 @@ const AuthProvider = ({ children }) => {
 
     const googleSignIn = () => {
         return signInWithPopup(auth, googleProvider)
-        // .then((res)=>{
-        //     checkRole(res.user.email);
-        //     return res;
-        // })
+            // .then((res)=>{
+            //     checkRole(res.user.email);
+            //     return res;
+            // })
             .catch((error) => {
                 console.error("Error signing in:", error.message);
                 throw error; // Re-throw the error for the caller to handle
@@ -77,9 +81,26 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
-            setUser(currentUser);
-            // if(currentUser?.email)
-            //     checkRole(currentUser.email);
+            setUser(currentUser)
+            if (currentUser) {
+                // console.log(currentUser);
+                
+                const userInfo = { email: currentUser.email }
+                axiosPublic.post('/jwt', userInfo)
+                    .then(res => {
+                        if (res.data.token) {
+                            localStorage.setItem('access-token', res.data.token);
+                            console.log(res.data.token);
+                            setLoader(false);
+                        }
+                    })
+            }
+            else {
+                localStorage.removeItem('access-token');
+                setLoader(false);
+            }
+            if(currentUser?.email)
+                checkRole(currentUser.email);
             setLoader(false);
         })
 
@@ -92,7 +113,7 @@ const AuthProvider = ({ children }) => {
     const authInfo = {
         user,
         loader,
-        // role,
+        role,
         createUser,
         updateUserProfile,
         signInUser,

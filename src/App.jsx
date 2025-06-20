@@ -6,7 +6,7 @@ function App() {
 
 
   return (
-    <div>
+    <div className="bg-slate-500">
       <div className='top-0 sticky z-50'>
         <Navbar></Navbar>
       </div>

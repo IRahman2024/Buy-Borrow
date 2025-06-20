@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { Navigate } from "react-router-dom";
 import { getAuth, sendEmailVerification } from "firebase/auth";
+import { axiosSecure } from "../../Hooks/useAxiosPrivate";
 
 const SignUpLoginForm = () => {
     const [active, setActive] = useState(false);
@@ -51,10 +52,10 @@ const SignUpLoginForm = () => {
 
         createUser(regEmail, regPassword)
             .then(result => {
-                console.log('clicked');
-                console.log(result);
+                // console.log('clicked');
+                // console.log(result);
 
-                // Wait until the current user is available
+                // // Wait until the current user is available
                 if (auth.currentUser) {
                     sendEmailVerification(auth.currentUser)
                         .then(() => {
@@ -66,26 +67,28 @@ const SignUpLoginForm = () => {
                 }
 
                 // Optional backend registration or profile update logic
-                /*
                 const info = {
-                  userName: userName,
-                  firstName: first,
-                  lastName: last,
-                  email: regEmail,
-                  role: role,
-                  profilePic: photo
+                    userName: regUserName,
+                    // firstName: first,
+                    // lastName: last,
+                    email: regEmail,
+                    role: role
                 };
-            
-                axios.post('http://localhost:3000/addUser', info)
+
+                console.log(info);
+
+                axiosSecure.post('/addUser', info)
                   .then(res => console.log(res))
                   .catch(err => console.error('Error saving user info:', err));
             
-                updateUserProfile(regUserName, photo)
-                  .then(() => console.log('Profile updated'))
-                  .catch(err => console.error('Error updating profile:', err));
-                */
+                // updateUserProfile(regUserName, photo)
+                //   .then(() => console.log('Profile updated'))
+                //   .catch(err => console.error('Error updating profile:', err));            
             })
-            .catch(error => console.error('Error creating user profile:', error));
+            .catch(error => {
+                if(error == 'FirebaseError: Firebase: Error (auth/email-already-in-use).')
+                    alert('Email already exists! Try something different!');
+            });
 
         // setLoader(false);
 
