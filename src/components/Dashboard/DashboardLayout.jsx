@@ -23,66 +23,70 @@ const DashboardLayout = () => {
 }
 
 const Sidebar = () => {
-    const {role: userRole} = useContext(AuthContext);
+    const { role: userRole } = useContext(AuthContext);
     const [isOpen, setIsOpen] = useState(!false)
     const [selected, setSelected] = useState("Dashboard")
-    const [notifs, setNotifs] = useState(3);
-    const [role, setRole] = useState("Seller");
+    // const [notifs, setNotifs] = useState(3);
+    const [role, setRole] = useState("Buyer");
     // console.log(role);
-    
+
 
     useEffect(() => {
         // console.log(userRole);
-        if (userRole === ('no role found' || undefined)) 
+        if (userRole === ('no role found' || undefined))
             setRole('Buyer');
-        else{           
+        else {
             // const role = userRole?.toLowerCase();
             // console.log(role);
-            
+
             setRole(userRole);
         }
     }, [userRole]);
     // console.log(role);
 
     const buyerOptions = [
-        { title: "Dashboard", Icon: LayoutDashboard, target: '/dashboard',  selected: selected, setSelected: setSelected, isOpen: isOpen },
+        // dashboard e click korlei direct user profile dekhabe
+        { title: "Dashboard", Icon: LayoutDashboard, target: '/dashboard', selected: selected, setSelected: setSelected, isOpen: isOpen },
         { title: "Home", Icon: House, target: '/', selected: selected, setSelected: setSelected, isOpen: isOpen },
-        { title: "Schedules", Icon: CalendarDays, target: '/dashboard/mySchedules', selected: selected, setSelected: setSelected, isOpen: isOpen },
-        // { title: "Profile", Icon: House, target: '', selected: selected, setSelected: setSelected, isOpen: isOpen },
+        { title: "Cart", Icon: CalendarDays, target: '/dashboard/cart', selected: selected, setSelected: setSelected, isOpen: isOpen },
         // { title: "Notifications", Icon: BellRing, target: '', selected: selected, setSelected: setSelected, isOpen: isOpen, notifs: notifs },
         { title: "Transactions", Icon: FaMoneyCheckAlt, target: '/dashboard/myPayments', selected: selected, setSelected: setSelected, isOpen: isOpen },
-        { title: "Chat with seller", Icon: BsChatSquareDots, target: '', selected: selected, setSelected: setSelected, isOpen: isOpen, notifs: notifs },
-        { title: "Reviews", Icon: Star, target: '/dashboard/myReviews', selected: selected, setSelected: setSelected, isOpen: isOpen },
-        // { title: "Complain", Icon: MailWarning, target: '/dashboard/myComplains', selected: selected, setSelected: setSelected, isOpen: isOpen, notifs: 2 }
+        // { title: "Chat with seller", Icon: BsChatSquareDots, target: '', selected: selected, setSelected: setSelected, isOpen: isOpen, notifs: notifs },
+        { title: "My Reviews", Icon: Star, target: '/dashboard/myReviews', selected: selected, setSelected: setSelected, isOpen: isOpen },
+        // { title: "My Complains", Icon: MailWarning, target: '/dashboard/myComplains', selected: selected, setSelected: setSelected, isOpen: isOpen, notifs: 2 },
+        { title: "Order History", Icon: MailWarning, target: '/dashboard/myComplains', selected: selected, setSelected: setSelected, isOpen: isOpen, notifs: 2 },
+        { title: "Borrowings", Icon: MailWarning, target: '/dashboard/myComplains', selected: selected, setSelected: setSelected, isOpen: isOpen, notifs: 2 },
     ];
 
     const adminOptions = [
         { title: "Dashboard", Icon: LayoutDashboard, target: '/dashboard', selected: selected, setSelected: setSelected, isOpen: isOpen },
         { title: "Home", Icon: House, target: '/', selected: selected, setSelected: setSelected, isOpen: isOpen },
         { title: "User Overview", Icon: Users, target: '/dashboard/allUsers', selected: selected, setSelected: setSelected, isOpen: isOpen },
-        { title: "Complains Overview", Icon: TbFaceIdError, target: '/dashboard/allComplains', selected: selected, setSelected: setSelected, isOpen: isOpen },
+        // { title: "Complains Overview", Icon: TbFaceIdError, target: '/dashboard/allComplains', selected: selected, setSelected: setSelected, isOpen: isOpen },
         // admin er earning er kaj baki
         { title: "Earnings", Icon: CircleDollarSign, target: '/dashboard/earning', selected: selected, setSelected: setSelected, isOpen: isOpen },
-        // { title: "Search User", Icon: UserSearch, target: '', selected: selected, setSelected: setSelected, isOpen: isOpen },
-        { title: "Chat with seller", Icon: BsChatSquareDots, target: '', selected: selected, setSelected: setSelected, isOpen: isOpen, notifs: notifs },
-        { title: "Manage Listings", Icon: ListRestart, target: '/dashboard/manageListing', selected: selected, setSelected: setSelected, isOpen: isOpen },
+        { title: "Search User", Icon: UserSearch, target: '', selected: selected, setSelected: setSelected, isOpen: isOpen },
+        // { title: "Chat with seller", Icon: BsChatSquareDots, target: '', selected: selected, setSelected: setSelected, isOpen: isOpen, notifs: notifs },
+        { title: "Manage Product Listings", Icon: ListRestart, target: '/dashboard/manageListing', selected: selected, setSelected: setSelected, isOpen: isOpen },
         { title: "Contact", Icon: SquareUserRound, target: '', selected: selected, setSelected: setSelected, isOpen: isOpen }
     ];
 
     const sellerOptions = [
         { title: "Home", Icon: House, target: "/", selected: selected, setSelected: setSelected, isOpen: isOpen },
-        // { title: "Dashboard", Icon: LayoutDashboard, target: '/dashboard', selected: selected, setSelected: setSelected, isOpen: isOpen },
-        { title: "Chats", Icon: LayoutDashboard, target: '/dashboard', selected: selected, setSelected: setSelected, isOpen: isOpen },
-        { title: "All Listings", Icon: ListOrdered, target: "/dashboard/listingseller", selected: selected, setSelected: setSelected, isOpen: isOpen },
+        // dashboard e click korlei direct user profile dekhabe
+        { title: "Dashboard", Icon: LayoutDashboard, target: '/dashboard', selected: selected, setSelected: setSelected, isOpen: isOpen },
+        // { title: "Chats", Icon: LayoutDashboard, target: '/dashboard', selected: selected, setSelected: setSelected, isOpen: isOpen },
+        { title: "All Product Listings", Icon: ListOrdered, target: "/dashboard/manageListing", selected: selected, setSelected: setSelected, isOpen: isOpen },
+        { title: "Add Product", Icon: ListOrdered, target: "/dashboard/addProduct", selected: selected, setSelected: setSelected, isOpen: isOpen },
         { title: "Earnings", Icon: CircleDollarSign, target: "/dashboard/earning", selected: selected, setSelected: setSelected, isOpen: isOpen },
-        { title: "Bookings", Icon: FaCalendarCheck, target: "/dashboard/sellerBookings", selected: selected, setSelected: setSelected, isOpen: isOpen },
-        // { title: "Block-day", Icon: Grid2x2X, target: "", selected: selected, setSelected: setSelected, isOpen: isOpen },
-        { title: "Complains", Icon: MailWarning, target: "/dashboard/sellerComplain", selected: selected, setSelected: setSelected, isOpen: isOpen },
-        { title: "Reviews", Icon: Star, target: "/dashboard/sellerReview", selected: selected, setSelected: setSelected, isOpen: isOpen }
+        { title: "Sales history", Icon: FaCalendarCheck, target: "/dashboard/sellerBookings", selected: selected, setSelected: setSelected, isOpen: isOpen },
+        { title: "Borrow History", Icon: Grid2x2X, target: "", selected: selected, setSelected: setSelected, isOpen: isOpen },
+        // { title: "Complains", Icon: MailWarning, target: "/dashboard/sellerComplain", selected: selected, setSelected: setSelected, isOpen: isOpen },
+        { title: "Reviews", Icon: Star, target: "/dashboard/reviewListing", selected: selected, setSelected: setSelected, isOpen: isOpen }
     ];
-    // console.log(userRole);
-    
-    
+    // console.log(role);
+
+
     let options = [];
     if (userRole === 'Seller') { options = sellerOptions; }
     else if (userRole === 'Admin') { options = adminOptions; }
@@ -164,7 +168,7 @@ const Option = ({ Icon, target, title, selected, setSelected, isOpen, notifs }) 
     return (
         <NavLink
             to={target}
-        >           
+        >
             <motion.button
                 layout
                 onClick={() => setSelected(title)}

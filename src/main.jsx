@@ -13,6 +13,12 @@ import UserProfile from './components/UserProfile/UserProfile';
 import PrivateRoutes from './components/Routes/PrivateRoutes';
 import DashboardLayout from './components/Dashboard/DashboardLayout';
 import Furnitures from './components/Categories/Furnitures/Furnitures';
+import Details from './components/Categories/Details/Details';
+import ManageListing from './components/Shared/ManageListing/ManageListing';
+import AddProduct from './components/Shared/ManageListing/AddProduct';
+import ReviewListing from './components/Shared/ReviewListing/ReviewListing';
+import MyReview from './components/Shared/ReviewListing/MyReview';
+import Cart from './components/Cart/Cart';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +42,10 @@ const router = createBrowserRouter([
         },
         element: <Furnitures></Furnitures>
       },
+      {
+        path: '/details/:id',
+        element: <Details></Details>
+      },
       // {
       //   path: '/categories/furnitures',
       //   element: <Furnitures></Furnitures>
@@ -52,7 +62,28 @@ const router = createBrowserRouter([
       },
       {
         path: '/dashboard/cart',
-        element: <UserProfile></UserProfile>
+        element: <Cart></Cart>
+      },
+      {
+        path: '/dashboard/myReviews',
+        element: <MyReview></MyReview>
+      },
+      // seller routes
+      {
+        path: '/dashboard/manageListing',
+        element: <ManageListing></ManageListing>
+      },
+      {
+        path: '/dashboard/addProduct',
+        element: <AddProduct></AddProduct>
+      },
+      {
+        path: '/dashboard/addProduct',
+        element: <AddProduct></AddProduct>
+      },
+      {
+        path: '/dashboard/reviewListing',
+        element: <ReviewListing></ReviewListing>
       },
     ]
   }

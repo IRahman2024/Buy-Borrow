@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useAxiosSecure from "../../Hooks/useAxiosPrivate";
@@ -8,9 +8,33 @@ const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
     const axiosSecure = useAxiosSecure();
-    const test = () => {        
-        axiosSecure.post('/test', {text: 'text111'});
-    }
+
+    const [cartCount, setCartCount] = useState(0);
+
+    const getCartFromStorage = () => {
+        const cart = localStorage.getItem('cart');
+        return cart ? JSON.parse(cart) : [];
+    };
+
+    const updateCartCount = () => {
+        const cart = getCartFromStorage();
+        setCartCount(cart.length);
+    };
+
+    useEffect(() => {
+        updateCartCount();
+        window.addEventListener('storage', updateCartCount);
+        window.addEventListener('cartUpdated', updateCartCount);
+        return () => {
+            window.removeEventListener('storage', updateCartCount);
+            window.removeEventListener('cartUpdated', updateCartCount);
+        };
+    }, []);
+
+    // Update cart count when component updates (for same-page changes)
+    useEffect(() => {
+        updateCartCount();
+    }, []);
     // console.log(user);
 
     // const links = <>
@@ -44,7 +68,7 @@ const Navbar = () => {
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><Link onClick={() => test()} to='/'>Home</Link></li>
+                    <li><Link to='/'>Home</Link></li>
                     <li>
                         <details>
                             <summary>Products</summary>
@@ -54,6 +78,10 @@ const Navbar = () => {
                             </ul>
                         </details>
                     </li>
+                    {
+
+                    }
+                    <li><Link to='/dashboard/cart'>Cart { cartCount && <span className="indicator-item badge badge-secondary">{cartCount}</span> }</Link></li>
                     {user && <li><Link to='/dashboard'>Dashboard</Link></li>}
                 </ul>
             </div>
@@ -86,7 +114,7 @@ const Navbar = () => {
                                 </ul>
                             </div>
                         </div>
-                    </> : <NavLink to='/login' className="btn">Log In</NavLink>
+                    </> : <NavLink state={location.pathname} to='/login' className="btn">Log In</NavLink>
                 }
                 {/* <NavLink to='/login' className="btn">Log In</NavLink> */}
             </div>

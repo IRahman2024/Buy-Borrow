@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData, useParams } from 'react-router-dom';
+import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 
 const Furnitures = () => {
     const [products, setProducts] = useState(null);
-    const type = useLoaderData();
-    console.log(type.category);
+    const category = useParams().category;
+    const axiosPublic = useAxiosPublic();
+
+    console.log(products);
 
     useEffect(() => {
-        fetch('/Category.json')
-            .then((res) => res.json())
-            .then((data) => {
-                setProducts(data.category[type.category]);
-            })
+        axiosPublic.get(`/products/${category}`)
+            .then(data => setProducts(data.data))
             .catch((err) => console.error('Error loading category.json:', err));
-    }, [type]);
+    }, [category]);
 
-    products?.map((product) => console.log(product?.image));
+    products?.map((product) => console.log(product?._id));
+
+    if(!products?.length)
+        return (
+            <div className="text-6xl font-black p-4">Sorry. No product available yet. Come another day...</div>
+        )
 
     return (
         <div className='p-4 flex gap-7 justify-center'>
@@ -24,27 +29,26 @@ const Furnitures = () => {
                     <div key={id} className="card w-96 shadow-sm bg-gray-400">
                         <figure>
                             <img
-                                src={product?.image}
+                                src={product?.urls[0]}
                                 alt={product?.name} />
                         </figure>
                         <div className="card-body">
                             <h2 className="card-title">{product?.name}</h2>
-                            <p>{product?.description}</p>
+                            <p>{product?.about?.slice(0, 50) + (product?.about?.length > 50 ? '...' : '')}</p>
                             <div className="flex items-center text-sm">
                                 <span className="text-red-600 font-bold mr-1">Price:</span>
-                                <span className="text-green-600 font-semibold mr-1">{product?.price}$</span>
+                                <span className="text-green-600 font-semibold mr-1">{product?.price} Taka</span>
                                 {product?.oldPrice && (
-                                    <span className="line-through text-gray-400">{product?.oldPrice}$</span>
+                                    <span className="line-through text-gray-400">{product?.oldPrice} taka</span>
                                 )}
                             </div>
-                            <p className="text-sm font-bold">Rating: {product?.rating}</p>
-                            {product?.borrow && <div className="badge badge-info">
+                            {product?.type == 'Lend' && <div className="badge badge-info">
                                 <svg className="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor" strokeLinejoin="miter" strokeLinecap="butt"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeLinecap="square" stroke-miterlimit="10" strokeWidth="2"></circle><path d="m12,17v-5.5c0-.276-.224-.5-.5-.5h-1.5" fill="none" stroke="currentColor" strokeLinecap="square" stroke-miterlimit="10" strokeWidth="2"></path><circle cx="12" cy="7.25" r="1.25" fill="currentColor" strokeWidth="2"></circle></g></svg>
                                 Borrowing option available
                             </div>}
                             <div className="card-actions justify-end">
-                                {/* <Link to={`${}`} className="btn btn-primary">Show Details</Link> */}
-                                <button className="btn btn-primary">Buy Now</button>
+                                <Link to={`/details/${product?._id}`} className="btn btn-primary">Show Details</Link>
+                                { product?.type !== 'Lend' && <button className="btn btn-primary">Buy Now</button> }
                             </div>
                         </div>
                     </div>

@@ -38,7 +38,7 @@ const Categories = () => {
     };
 
     return (
-        <div className="container mx-auto p-4 bg-white">
+        <div className="container mx-auto p-4 bg-black">
             <div className="grid grid-cols-6  gap-4">
                 {/* Headers - using direct style control */}
                 {/* <div className="col-span-2" style={headerStyle}>Home and garden</div>
@@ -48,7 +48,7 @@ const Categories = () => {
                 {/* Home and garden section done */}
                 {/* Furniture */}
                 <div className="col-span-2 row-span-2 col-start-1 row-start-2 bg-white text-white">
-                    <Link to="/categories/furnitures" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/furnitures">
                         <div className="w-full h-[calc(100%-1.5rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={furniture} imgTitle={"Furniture"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/sofa.webp" alt="Furniture" /> */}
@@ -58,7 +58,7 @@ const Categories = () => {
                 {/* Kitchenware done*/}
                 <div className="col-span-2 row-span-2 col-start-1 row-start-4 bg-white text-white">
                     {/* <div className="mb-1">Kitchenware</div> */}
-                    <Link to="/categories/kitchenWare" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/kitchenWare">
                         <div className="w-full h-[calc(100%-.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={kitchenWare} imgTitle={"Kitchenware"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/bowles.webp" alt="Kitchenware" /> */}
@@ -68,7 +68,7 @@ const Categories = () => {
                 {/* Bedding done*/}
                 <div className="col-start-1 row-start-6 bg-white text-white">
                     {/* <div className="mb-1">Bedding</div> */}
-                    <Link to="/categories/beddings" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/beddings">
                         <div className="w-full h-[calc(100%-.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={beddings} imgTitle={"Bedding"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/beddings.webp" alt="Bedding" /> */}
@@ -78,7 +78,7 @@ const Categories = () => {
                 {/* Home Decor done*/}
                 <div className="col-start-2 row-start-6 bg-white text-white">
                     {/* <div className="mb-1">Home Decor</div> */}
-                    <Link to="/categories/homeDecore" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/homeDecore">
                         <div className="w-full h-[calc(100%-.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={homeDecore} imgTitle={"Home Decoration"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/vase.webp" alt="Home Decor" /> */}
@@ -88,7 +88,7 @@ const Categories = () => {
                 {/* Equipment done */}
                 <div className="col-start-1 row-start-7 bg-white text-white">
                     {/* <div className="mb-1">Equipment</div> */}
-                    <Link to="/categories/equipment" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/equipment">
                         <div className="w-full h-[calc(100%-.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={Equipment} imgTitle={"Equipment"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/tractor.webp" alt="Equipment" /> */}
@@ -98,7 +98,7 @@ const Categories = () => {
                 {/* Storage & Organization done*/}
                 <div className="col-start-2 row-start-7 bg-white text-white">
                     {/* <div className="mb-1">Storage & Organization</div> */}
-                    <Link to="/categories/storage" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/storage">
                         <div className="w-full h-[calc(100%-.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={storage} imgTitle={"Storage And Equipment"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/storage.webp" alt="Storage" /> */}
@@ -108,7 +108,7 @@ const Categories = () => {
                 {/* Beauty & Personal Care section done */}
                 <div className="row-span-2 col-start-3 row-start-2 bg-white text-white">
                     {/* <div className="mb-1">Skincare</div> */}
-                    <Link to="/categories/skinCare" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/skinCare">
                         <div className="w-full h-[calc(100%-.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={skinCare} imgTitle={"Skincare"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/moisturizer.webp" alt="Skincare" /> */}
@@ -117,7 +117,7 @@ const Categories = () => {
                 </div>
                 {/* Hair Care */}
                 <div className="row-span-2 col-start-4 row-start-2 bg-white text-white">
-                    <Link to="/categories/hairCare" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/hairCare">
                         <div className="w-full h-[calc(100%-.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={hairCare} imgTitle={"Hair Care"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/shampoo.webp" alt="Hair Care" /> */}
@@ -134,7 +134,7 @@ const Categories = () => {
                 {/* Fragrances done*/}
                 <div className="row-span-2 col-start-3 row-start-6 bg-white text-white">
                     {/* <div className="mb-1">Fragrances</div> */}
-                    <Link to="/categories/fragrances" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/fragrances">
                         <div className="w-full h-[calc(100%-.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={Fragrances} imgTitle={"Fragrances"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/perfume.webp" alt="Fragrances" /> */}
@@ -144,7 +144,7 @@ const Categories = () => {
                 {/* Personal Care Appliances done */}
                 <div className="row-span-2 col-start-4 row-start-6 bg-white text-white">
                     {/* <div className="mb-1">Personal Care Appliances</div> */}
-                    <Link to="/categories/personal" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/personal">
                         <div className="w-full h-[calc(100%-.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={personal} imgTitle={"Personal Care Appliances"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/hair dryer.webp" alt="Appliances" /> */}
@@ -155,7 +155,7 @@ const Categories = () => {
                 {/* Electronics & Technology section done*/}
                 <div className="col-span-2 row-span-2 col-start-5 row-start-2 bg-white text-white">
                     {/* <div className="mb-1">Laptops</div> */}
-                    <Link to="/categories/laptops" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/laptops">
                         <div className="w-full h-[calc(100%-.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={laptops} imgTitle={"Laptops"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/laptop.webp" alt="Laptops" /> */}
@@ -165,7 +165,7 @@ const Categories = () => {
                 {/* headphones done */}
                 <div className="col-span-2 row-span-2 col-start-5 row-start-4 bg-white text-white">
                     {/* <div className="mb-1">Headphones</div> */}
-                    <Link to="/categories/headPhones" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/headPhones">
                         <div className="w-full h-[calc(100%-.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={headPhones} imgTitle={"Headphones"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/headphones.webp" alt="Headphones" /> */}
@@ -176,7 +176,7 @@ const Categories = () => {
                 {/* Additional Electronics categories */}
                 <div className="col-span-1 row-span-1 col-start-5 row-start-6 bg-white text-white">
                     {/* <div className="mb-1">Cameras</div> */}
-                    <Link to="/categories/cameras" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/cameras">
                         <div className="w-full h-[calc(100%-.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={Cameras} imgTitle={"Cameras"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/camera.webp" alt="Cameras" /> */}
@@ -186,7 +186,7 @@ const Categories = () => {
                 {/* Gaiming done */}
                 <div className="col-span-1 row-span-1 col-start-6 row-start-6 bg-white text-white">
                     {/* <div className="mb-1">Gaming</div> */}
-                    <Link to="/categories/gaming" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/gaming">
                         <div className="w-full h-[calc(100%-.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={Gaming} imgTitle={"Gaming"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/gaming.webp" alt="Gaming" /> */}
@@ -196,7 +196,7 @@ const Categories = () => {
                 {/* Audio done*/}
                 <div className="col-span-1 row-span-1 col-start-5 row-start-7 bg-white text-white">
                     {/* <div className="mb-1">Audio</div> */}
-                    <Link to="/categories/audio" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/audio">
                         <div className="w-full h-[calc(100%-.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={Audio} imgTitle={"Audio"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/audio.webp" alt="Audio" /> */}
@@ -206,7 +206,7 @@ const Categories = () => {
                 {/* Accesssories done */}
                 <div className="col-span-1 row-span-1 col-start-6 row-start-7 bg-white text-white">J
                     {/* <div className="mb-1">Accessories</div> */}
-                    <Link to="/categories/accessories" onClick={() => console.log('clicked')}>
+                    <Link to="/categories/accessories">
                         <div className="w-full h-[calc(100%-1.25rem)]">
                             <CardReverse className="w-full h-full object-cover" imgSource={Accessories} imgTitle={"Accessories"}></CardReverse>
                             {/* <img className="w-full h-full object-cover" src="/category/accessories.webp" alt="Accessories" /> */}

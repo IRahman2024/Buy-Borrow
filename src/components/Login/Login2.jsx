@@ -1,27 +1,76 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./SignUp_LogIn_Form.module.css";
 import { Helmet } from "react-helmet";
 import { AuthContext } from "../../Provider/AuthProvider";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { getAuth, sendEmailVerification } from "firebase/auth";
 import { axiosSecure } from "../../Hooks/useAxiosPrivate";
+import useAxiosPublic, { axiosPublic } from "../../Hooks/useAxiosPublic";
+import { lineSpinner } from 'ldrs';
 
 const SignUpLoginForm = () => {
+    const [loader, setLoader] = useState(false);
+    const [userList, setUserList] = useState([]);
     const [active, setActive] = useState(false);
     const [dropOptions, setDropOptions] = useState(null);
     const [error, setError] = useState(null);
+    lineSpinner.register();
+
+    const axiosPublic = useAxiosPublic();
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const roleDisplayMap = {
         Customer: "want to buy",
         Seller: "want to sell",
     };
 
+    useEffect(() => {
+        axiosPublic.get('http://localhost:3000/allUsersEmail')
+            .then(res => {
+                // console.log(res.data);
+                setUserList(res.data);
+            })
+    }, [])
+
+    // console.log(userList);
+
 
     const auth = getAuth();
 
     const { googleSignIn, user, signInUser, loader: userLoader, createUser, updateUserProfile } = useContext(AuthContext);
 
+    const handleGoogleAuth = () => {
+        setLoader(true);
+        googleSignIn()
+            .then(result => {
+                // console.log(result.user);
+
+                if (!userList.includes(result.user.email)) {
+                    // console.log('hit! new user');
+
+                    const data = {
+                        userName: result.user.displayName,
+                        email: result.user.email,
+                        role: 'Seller',
+                        profilePic: (result.user?.photoURL || null),
+                    }
+                    axiosPublic.post('http://localhost:3000/addUser', data)
+                        .then(res => {
+                            // console.log(res);
+                            setLoader(false);
+                            navigate(location?.state ? location.state : '/');
+                        })
+                }
+                setLoader(false);
+                console.log(location?.state);
+
+                navigate(location?.state ? location.state : '/');
+            })
+    }
+
     const handleLogSubmit = (e) => {
+        setLoader(true);
         e.preventDefault();
         // Handle form submission
         const loginEmail = document.querySelector('input[name="login-email"]')?.value;
@@ -29,11 +78,15 @@ const SignUpLoginForm = () => {
 
         signInUser(loginEmail, pass)
             .then(res => console.log(res))
-            .then(() => Navigate(location?.state ? location.state : '/'))
+            .then(() => setLoader(false))
+            .then(() => navigate(location?.state ? location.state : '/'))
 
         console.log(loginEmail, pass);
 
     };
+
+    // console.log(location.state);
+    
 
     const handleRegSubmit = (e) => {
         e.preventDefault();
@@ -78,21 +131,40 @@ const SignUpLoginForm = () => {
                 console.log(info);
 
                 axiosSecure.post('/addUser', info)
-                  .then(res => console.log(res))
-                  .catch(err => console.error('Error saving user info:', err));
-            
+                    .then(res => console.log(res))
+                    .catch(err => console.error('Error saving user info:', err));
+
                 // updateUserProfile(regUserName, photo)
                 //   .then(() => console.log('Profile updated'))
                 //   .catch(err => console.error('Error updating profile:', err));            
             })
             .catch(error => {
-                if(error == 'FirebaseError: Firebase: Error (auth/email-already-in-use).')
+                if (error == 'FirebaseError: Firebase: Error (auth/email-already-in-use).')
                     alert('Email already exists! Try something different!');
             });
 
         // setLoader(false);
 
     };
+
+    if(user)
+        navigate(location?.state || '/')
+
+    if (loader) {
+        return (
+            <div className="flex size-full items-center justify-center bg-blue-300 opacity-65 fixed z-20">
+                <p className="text-3xl font-black">Logging in. Please wait...</p>
+                <div className="">
+                    <l-line-spinner
+                        size="181"
+                        stroke="10"
+                        speed="1"
+                        color="black"
+                    ></l-line-spinner>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className="flex items-center justify-center">
@@ -125,12 +197,9 @@ const SignUpLoginForm = () => {
                             <a href="#">Forgot Password?</a>
                         </div>
                         <button type="submit" className={styles.btn}>Login</button>
-                        <p>or login with social platforms</p>
+                        <p>or login with</p>
                         <div className={styles["social-icons"]}>
-                            <a href="#"><i className="bx bxl-google"></i></a>
-                            <a href="#"><i className="bx bxl-facebook"></i></a>
-                            <a href="#"><i className="bx bxl-github"></i></a>
-                            <a href="#"><i className="bx bxl-linkedin"></i></a>
+                            <a onClick={() => handleGoogleAuth()} href="#"><i className="bx bxl-google"></i></a>
                         </div>
                     </form>
                 </div>
@@ -165,13 +234,6 @@ const SignUpLoginForm = () => {
                         </div>
                         <button type="submit" className={styles.btn}>Register</button>
                         {error && <p className="text-xl font-bold text-red-500">{error}</p>}
-                        <p>or register with social platforms</p>
-                        <div className={styles["social-icons"]}>
-                            <a href="#"><i className="bx bxl-google"></i></a>
-                            <a href="#"><i className="bx bxl-facebook"></i></a>
-                            <a href="#"><i className="bx bxl-github"></i></a>
-                            <a href="#"><i className="bx bxl-linkedin"></i></a>
-                        </div>
                     </form>
                 </div>
                 {/* after form */}

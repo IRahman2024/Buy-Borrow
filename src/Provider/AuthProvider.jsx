@@ -9,6 +9,7 @@ export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState([]);
+    const [localUserInfo, setlocalUser] = useState([]);
     // const [role, setRole] = useState();
     const [loader, setLoader] = useState(true);
     const [role, setRole] = useState(true);
@@ -18,7 +19,7 @@ const AuthProvider = ({ children }) => {
 
     const checkRole = async (email) => {
         const data = await axiosPublic.get(`/getRoles?email=${email}`);
-        console.log(data.data);
+        // console.log(data.data);
         setRole(data.data);
     }
 
@@ -84,13 +85,15 @@ const AuthProvider = ({ children }) => {
             setUser(currentUser)
             if (currentUser) {
                 // console.log(currentUser);
-                
+
                 const userInfo = { email: currentUser.email }
+                axiosPublic.get(`/users/${currentUser.email}`)
+                    .then((data) => setlocalUser(data.data))
                 axiosPublic.post('/jwt', userInfo)
                     .then(res => {
                         if (res.data.token) {
                             localStorage.setItem('access-token', res.data.token);
-                            console.log(res.data.token);
+                            // console.log(res.data.token);
                             setLoader(false);
                         }
                     })
@@ -99,7 +102,7 @@ const AuthProvider = ({ children }) => {
                 localStorage.removeItem('access-token');
                 setLoader(false);
             }
-            if(currentUser?.email)
+            if (currentUser?.email)
                 checkRole(currentUser.email);
             setLoader(false);
         })
@@ -112,6 +115,7 @@ const AuthProvider = ({ children }) => {
 
     const authInfo = {
         user,
+        localUserInfo,
         loader,
         role,
         createUser,

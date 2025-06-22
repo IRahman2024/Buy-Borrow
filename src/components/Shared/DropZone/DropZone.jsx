@@ -4,7 +4,7 @@ import { ReactSortable } from 'react-sortablejs';
 
 import './styles.css';
 
-const DropZone = () => {
+const DropZone = ({ folderName, onUploadComplete }) => {
     const [files, setFiles] = useState([]);
     const [uploading, setUploading] = useState(false);
 
@@ -24,6 +24,7 @@ const DropZone = () => {
         setFiles(prev => prev.filter(file => file.id !== id));
     };
 
+    console.log(folderName);
 
     const handleUpload = async () => {
         if (files.length === 0) {
@@ -32,7 +33,7 @@ const DropZone = () => {
         }
 
         setUploading(true);
-        
+
         const imgURLs = [];
 
         for (let i = 0; i < files.length; i++) {
@@ -40,7 +41,7 @@ const DropZone = () => {
             uploadData.append('file', files[i]);
             uploadData.append('upload_preset', 'E-com_Product_preset');
             uploadData.append('cloud_name', 'dwhcnlq8y');
-            uploadData.append('folder', `products/furnitures`); // furniture er jaygay je type er product oita hbe.
+            uploadData.append('folder', folderName); // furniture er jaygay je type er product oita hbe.
 
             const url = import.meta.env.VITE_CLOUDINARY_URL;
 
@@ -49,7 +50,12 @@ const DropZone = () => {
                 body: uploadData
             })
                 .then(res => res.json())
-                .then(data => imgURLs.push(data.secure_url)); // eita diye access kora jay chobite 
+                .then(data => {
+                    imgURLs.push(data.secure_url)
+                    if (onUploadComplete) {
+                        onUploadComplete(imgURLs);
+                    }
+                }); // eita diye access kora jay chobite 
 
         }
         setFiles([]);
